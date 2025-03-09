@@ -1,13 +1,7 @@
 from fastapi import FastAPI
+from api.routes import servers, metrics
 
 app = FastAPI()
 
-
-@app.get("/")
-async def root():
-    return {"message": "Hello World"}
-
-
-@app.get("/hello/{name}")
-async def say_hello(name: str):
-    return {"message": f"Hello {name}"}
+app.include_router(servers.router, prefix="/servers", tags=["servers"])
+app.include_router(metrics.router, prefix="/monitoring", tags=["monitoring"])
